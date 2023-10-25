@@ -9,3 +9,11 @@ class LoadCharacterEvent extends CharacterEvent {
   @override
   List<Object> get props => [];
 }
+
+class LoadCharacterByIdEvent extends CharacterEvent {
+  final String id;
+  const LoadCharacterByIdEvent(this.id);
+  
+  @override
+  List<Object> get props => [id];
+}
