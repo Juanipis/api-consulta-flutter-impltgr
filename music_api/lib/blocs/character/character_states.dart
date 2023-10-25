@@ -24,3 +24,12 @@ class CharacterErrorState extends CharacterState {
   @override
   List<Object> get props => [message];
 }
+
+class CharacterLoadedByIdState extends CharacterState {
+  final Character character;
+
+  CharacterLoadedByIdState({required this.character});
+
+  @override
+  List<Object> get props => [character];
+}
