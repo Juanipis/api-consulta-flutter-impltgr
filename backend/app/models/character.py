@@ -4,4 +4,4 @@ from uuid import UUID
 
 class Character(BaseModel):
     id: UUID
-    images_route: List[str]
+    images_route: List[str] = []

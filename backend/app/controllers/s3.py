@@ -9,27 +9,22 @@ class S3Credentials(BaseSettings):
     aws_secret_access_key: str
     s3_bucket: str
     s3_region: str = 'us-west-1'
+    drop_s3_bucket: bool = False
 
 
 
 class S3Controller:
     def __init__(self, s3_credentials: S3Credentials):
-        """
-        Inicializa el controlador para S3.
-
-        :param aws_access_key_id: ID de acceso para AWS.
-        :param aws_secret_access_key: Clave secreta de acceso para AWS.
-        :param s3_bucket: Nombre del bucket de S3.
-        :param s3_region: Región de S3 (por defecto 'us-west-1').
-        """
         self.s3_bucket = s3_credentials.s3_bucket
         self.s3_client = boto3.client('s3', region_name=s3_credentials.s3_region,
                                         aws_access_key_id=s3_credentials.aws_access_key_id,
                                         aws_secret_access_key=s3_credentials.aws_secret_access_key)
-        self.__empty_bucket(s3_credentials)
+        
+        if s3_credentials.drop_s3_bucket:
+            logger.info(f"Deleting bucket {s3_credentials.s3_bucket}")
+            self.__empty_bucket(s3_credentials)
 
     def __empty_bucket(self, s3_credentials: S3Credentials):
-
         bucket_name = s3_credentials.s3_bucket
         objects = self.s3_client.list_objects_v2(Bucket=bucket_name)
         if "Contents" not in objects:
@@ -74,5 +69,6 @@ class S3Controller:
         """
         response = self.s3_client.get_object(Bucket=self.s3_bucket, Key=path)
         return response['Body'].read()
+
 
 s3_controller = S3Controller(S3Credentials())
