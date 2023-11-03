@@ -4,7 +4,7 @@ import 'package:music_api/blocs/books/book_blocs.dart';
 import 'package:music_api/blocs/books/book_events.dart';
 import 'package:music_api/blocs/books/book_states.dart';
 import 'package:music_api/models/book.dart';
-import 'package:music_api/presentation/all_chapters/chapters_screen.dart';
+import 'package:music_api/presentation/screens/Books/all_chapters/chapters_screen.dart';
 import 'package:music_api/repositories/book.dart';
 
 class AllBooksScreen extends StatefulWidget {
