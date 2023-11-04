@@ -34,7 +34,7 @@ class BookRepository {
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      print('API Response: $data'); // Imprimir la respuesta para verificarla
+      //print('API Response: $data'); // Imprimir la respuesta para verificarla
       final chapters = data['data'] as List;
       return chapters.map((chapter) => Chapter.fromJson(chapter)).toList();
     } else {

@@ -31,6 +31,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       emit(BookLoadingState());
       try {
         final chapters = await bookRepository.getChaptersByBookId(event.bookId);
+        // ignore: unnecessary_null_comparison
         if (chapters == null || chapters.isEmpty) {
           emit(BookErrorState(message: 'No chapters found'));
         } else {

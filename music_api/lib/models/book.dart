@@ -44,6 +44,7 @@ class BookAttributes {
   });
 
   factory BookAttributes.fromJson(Map<String, dynamic> json) {
+    // ignore: unnecessary_null_comparison
     if (json == null) {
       throw ArgumentError('json cannot be null');
     }
@@ -105,6 +106,7 @@ class ChapterAttributes {
   });
 
   factory ChapterAttributes.fromJson(Map<String, dynamic> json) {
+    // ignore: unnecessary_null_comparison
     if (json == null) {
       throw ArgumentError('json cannot be null');
     }
@@ -139,6 +141,7 @@ class ChapterResponse {
   ChapterResponse({required this.data});
 
   factory ChapterResponse.fromJson(Map<String, dynamic> json) {
+    // ignore: unnecessary_null_comparison
     if (json == null) {
       throw ArgumentError('json cannot be null');
     }

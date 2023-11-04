@@ -40,8 +40,7 @@ class __AllCharactersScreenStateState extends State<AllCharactersScreenState> {
               child: ListTile(
                 leading: Image.network(characterList[index].attributes.image ??
                     ''), // Añadido valor predeterminado
-                title: Text(characterList[index].attributes.name ??
-                    'Desconocido'), // Añadido valor predeterminado
+                title: Text(characterList[index].attributes.name), // Añadido valor predeterminado
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
