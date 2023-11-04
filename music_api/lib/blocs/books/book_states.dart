@@ -36,7 +36,7 @@ class BookLoadedByIdState extends BookState {
 }
 
 class ChaptersLoadedState extends BookState {
-  final List<ChapterData> chapters;
+  final List<Chapter> chapters; // Cambiado de ChapterData a Chapter
 
   ChaptersLoadedState({required this.chapters});
 
@@ -45,7 +45,7 @@ class ChaptersLoadedState extends BookState {
 }
 
 class ChapterLoadedState extends BookState {
-  final ChapterData chapter;
+  final Chapter chapter; // Cambiado de ChapterData a Chapter
 
   ChapterLoadedState({required this.chapter});
 

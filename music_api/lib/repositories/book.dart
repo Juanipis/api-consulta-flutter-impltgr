@@ -29,27 +29,31 @@ class BookRepository {
   }
 
   // Obtener capítulos de un libro específico
-  Future<List<ChapterData>> getChaptersByBookId(String bookId) async {
+  Future<List<Chapter>> getChaptersByBookId(String bookId) async {
     Uri uri = Uri.parse('https://api.potterdb.com/v1/books/$bookId/chapters');
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+      print('API Response: $data'); // Imprimir la respuesta para verificarla
       final chapters = data['data'] as List;
-      return chapters.map((chapter) => ChapterData.fromJson(chapter)).toList();
+      return chapters.map((chapter) => Chapter.fromJson(chapter)).toList();
     } else {
       throw Exception('Error fetching chapters');
     }
   }
 
   // Obtener un capítulo específico de un libro específico
-  Future<ChapterData> getChapterByBookIdAndChapterId(
-      String bookId, String chapterId) async {
+  Future<Chapter> getChapterByBookIdAndChapterId(
+      // Cambiado de ChapterData a Chapter
+      String bookId,
+      String chapterId) async {
     Uri uri = Uri.parse(
         'https://api.potterdb.com/v1/books/$bookId/chapters/$chapterId');
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return ChapterData.fromJson(data['data']);
+      return Chapter.fromJson(
+          data['data']); // Cambiado de ChapterData a Chapter
     } else {
       throw Exception('Error fetching chapter');
     }

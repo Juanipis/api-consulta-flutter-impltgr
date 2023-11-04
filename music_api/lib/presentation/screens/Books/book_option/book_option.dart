@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:music_api/presentation/screens/Books/all_books/all_books_screen.dart';
+import 'package:music_api/presentation/screens/Books/all_chapters/chapters_screen.dart';
+import 'package:music_api/presentation/screens/Books/id_book/id_book_screen.dart';
 
 class BookOptionScreen extends StatelessWidget {
   const BookOptionScreen({super.key});
@@ -15,21 +18,23 @@ class BookOptionScreen extends StatelessWidget {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                // Lógica para mostrar todos los libros
+                // Navegar a la pantalla que muestra todos los libros
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AllBooksScreen()),
+                );
               },
               child: const Text('Mostrar Todos los Libros'),
             ),
             const SizedBox(height: 20), // Espaciado entre los botones
             ElevatedButton(
               onPressed: () {
-                // Lógica para mostrar todos los capítulos
-              },
-              child: const Text('Mostrar Todos los Capítulos'),
-            ),
-            const SizedBox(height: 20), // Espaciado entre los botones
-            ElevatedButton(
-              onPressed: () {
-                // Lógica para buscar por ID
+                // Navegar a la pantalla que permite buscar un libro por ID
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const IDBookScreen()),
+                );
               },
               child: const Text('Buscar por ID'),
             ),

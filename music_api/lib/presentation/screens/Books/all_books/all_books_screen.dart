@@ -4,7 +4,7 @@ import 'package:music_api/blocs/books/book_blocs.dart';
 import 'package:music_api/blocs/books/book_events.dart';
 import 'package:music_api/blocs/books/book_states.dart';
 import 'package:music_api/models/book.dart';
-import 'package:music_api/presentation/screens/Books/all_chapters/chapters_screen.dart';
+import 'package:music_api/presentation/screens/Books/id_chapters/id_chapters.dart';
 import 'package:music_api/repositories/book.dart';
 
 class AllBooksScreen extends StatefulWidget {
@@ -20,6 +20,7 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
     return BlocProvider(
       create: (context) => BookBloc(BookRepository())..add(LoadBookEvent()),
       child: Scaffold(
+        appBar: AppBar(title: const Text('Libros')),
         body: bookBuilder(),
       ),
     );
@@ -36,18 +37,45 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
           return ListView.builder(
             itemCount: bookList.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(bookList[index].attributes.title),
-                subtitle: Text(bookList[index].attributes.author),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ChaptersScreen(bookId: bookList[index].id),
-                    ),
-                  );
-                },
+              return Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Modificación del estilo del título
+                      Text('Título: ${bookList[index].attributes?.title}',
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 5),
+                      Text('Autor: ${bookList[index].attributes?.author}'),
+                      const SizedBox(height: 5),
+                      Text('Resumen: ${bookList[index].attributes?.summary}'),
+                      const SizedBox(height: 5),
+                      Text(
+                          'Fecha de Publicación: ${bookList[index].attributes?.releaseDate}'),
+                      const SizedBox(height: 5),
+                      Text(
+                          'Número de Páginas: ${bookList[index].attributes?.pages}'),
+                      const SizedBox(height: 5),
+                      // Mostrar la portada del libro
+                      Image.network(bookList[index].attributes!.cover),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ChaptersByID(bookId: bookList[index].id),
+                            ),
+                          );
+                        },
+                        child: const Text('Ver Capítulos'),
+                      ),
+                    ],
+                  ),
+                ),
               );
             },
           );

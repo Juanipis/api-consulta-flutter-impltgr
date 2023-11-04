@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_api/blocs/character/character_blocs.dart';
 import 'package:music_api/blocs/character/character_events.dart';
 import 'package:music_api/blocs/character/character_states.dart';
-import 'package:music_api/repositories/character.dart';
 
 class IDCharacter extends StatefulWidget {
   const IDCharacter({super.key});

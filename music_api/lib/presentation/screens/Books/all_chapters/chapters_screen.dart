@@ -9,7 +9,7 @@ import 'package:music_api/repositories/book.dart';
 class ChaptersScreen extends StatefulWidget {
   final String bookId;
 
-  const ChaptersScreen({required this.bookId, super.key});
+  const ChaptersScreen({required this.bookId, Key? key}) : super(key: key);
 
   @override
   State<ChaptersScreen> createState() => _ChaptersScreenState();
@@ -31,18 +31,23 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
   }
 
   BlocBuilder<BookBloc, BookState> chaptersBuilder() {
-    return BlocBuilder(builder: (context, state) {
+    return BlocBuilder<BookBloc, BookState>(builder: (context, state) {
       if (state is BookLoadingState) {
         return const Center(child: CircularProgressIndicator());
       }
       if (state is ChaptersLoadedState) {
-        List<ChapterData> chapterList = state.chapters;
+        List<Chapter> chapterList =
+            state.chapters; // Cambiado de ChapterData a Chapter
         return ListView.builder(
           itemCount: chapterList.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(chapterList[index].id),
-              subtitle: Text(chapterList[index].type),
+              title: Text(chapterList[index]
+                  .attributes
+                  !.title), // Mostrando el título del capítulo
+              subtitle: Text(chapterList[index]
+                  .attributes
+                  !.summary), // Mostrando el resumen del capítulo
             );
           },
         );

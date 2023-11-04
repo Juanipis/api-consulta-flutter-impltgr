@@ -31,7 +31,11 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       emit(BookLoadingState());
       try {
         final chapters = await bookRepository.getChaptersByBookId(event.bookId);
-        emit(ChaptersLoadedState(chapters: chapters));
+        if (chapters == null || chapters.isEmpty) {
+          emit(BookErrorState(message: 'No chapters found'));
+        } else {
+          emit(ChaptersLoadedState(chapters: chapters));
+        }
       } catch (e) {
         emit(BookErrorState(message: e.toString()));
       }

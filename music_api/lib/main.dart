@@ -57,7 +57,7 @@ class MyHomePage extends StatelessWidget {
           children: <Widget>[
             Text(
               'Bienvenido a la Aplicación',
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(
                 height: 20), // Espaciado entre el mensaje y los botones
