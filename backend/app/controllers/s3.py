@@ -1,3 +1,4 @@
+from typing import Dict, List
 import boto3
 import json
 from logzero import logger
@@ -69,6 +70,12 @@ class S3Controller:
         """
         response = self.s3_client.get_object(Bucket=self.s3_bucket, Key=path)
         return response['Body'].read()
+
+    def get_files(self, path_list: List[str]) -> Dict[str, bytes]:
+        data: Dict[str, bytes] = {}
+        for path in path_list:
+            data[path] = self.get_file(path)
+        return data
 
 
 s3_controller = S3Controller(S3Credentials())

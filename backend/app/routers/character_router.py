@@ -1,3 +1,5 @@
+import base64
+from typing import Dict, List
 import uuid
 from app.logic.character.character_logic import character_logic
 from fastapi import APIRouter, File, UploadFile, HTTPException
@@ -14,7 +16,7 @@ async def insert_character(character_uuid: str, character_image: UploadFile = Fi
         'inserted': result
     }
 
-@router.get("/get_character_images")
+@router.get("/get_character_images_names")
 async def get_character_images(character_uuid: str):
     result = character_logic.get_character_images(character_uuid)
     if not result:
@@ -22,6 +24,17 @@ async def get_character_images(character_uuid: str):
     return {
         'character_images': result
     }
+
+@router.get("/get_character_images_bytes/{character_uuid}", response_model=Dict[str, str])
+async def get_character_images(character_uuid: str):
+    check_uuid(character_uuid)
+    result = character_logic.get_character_images_bytes(character_uuid)
+    if not result:
+        raise HTTPException(status_code=400, detail="No se pudo obtener las imágenes del personaje")
+    # Codificamos cada imagen en base64 y la devolvemos como un diccionario
+    return {name: base64.b64encode(img).decode() for name, img in result.items()}
+
+
 
 @router.post("/insert_new_character_image")
 async def insert_new_character_image(character_uuid: str, character_image: UploadFile = File(...)):
@@ -44,3 +57,9 @@ async def get_all_characters():
         'characters': result
     }
     
+    
+def check_uuid(character_uuid):
+    try:
+        uuid.UUID(character_uuid)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="El uuid no es válido")
