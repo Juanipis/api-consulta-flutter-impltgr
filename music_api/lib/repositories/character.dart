@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:music_api/models/character.dart';
+
+final apiHost = dotenv.env['API_HOST'];
 
 class CharacterRepository {
   Future<List<Character>> getAllCharacters() async {
@@ -32,7 +35,7 @@ class CharacterRepository {
 
   Future<bool> insertCharacter(
       String characterUuid, Uint8List fileBytes, String fileName) async {
-    var uri = Uri.parse('http://127.0.0.1:8000/character/insert_character');
+    var uri = Uri.parse('$apiHost/character/insert_character');
     uri = uri.replace(queryParameters: {
       ...uri.queryParameters,
       'character_uuid': characterUuid, // Asegúrate de que esto no sea null.
