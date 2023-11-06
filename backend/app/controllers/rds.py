@@ -158,6 +158,14 @@ class RDSController:
         # Convertimos la lista a un conjunto para eliminar duplicados, y luego de nuevo a una lista
         return list(set(characters_uuid_list))
     
+    def clean_database(self):
+        self.cursor.execute(
+            """
+            DELETE FROM characters
+            """
+        )
+        self.conn.commit()
+    
     def close_connection(self):
         logger.info("Closing RDS connection")
         self.cursor.close()

@@ -46,4 +46,28 @@ class CharacterUserRepository {
           'Failed to upload image: Server responded with status code ${response.statusCode}');
     }
   }
+
+  Future<List<String>> getUserCharactersUUIDList() async {
+    Uri uri =
+        Uri.parse('http://127.0.0.1:8000/character/get_all_characters_uuids');
+    final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final uuidList = List<String>.from(data['uuid_list']);
+      return uuidList.isNotEmpty ? uuidList : [];
+    } else {
+      throw Exception('Failed to load user characters');
+    }
+  }
+
+  Future<bool> deleteAllCharacters() {
+    Uri uri = Uri.parse('http://127.0.0.1:8000/character/clean_database');
+    return http.delete(uri).then((response) {
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('Failed to delete database');
+      }
+    });
+  }
 }

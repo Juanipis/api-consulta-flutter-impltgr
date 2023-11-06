@@ -11,3 +11,15 @@ class CharacterUser {
     );
   }
 }
+
+class CharacterUUIDList {
+  final List<String> uuidList;
+
+  CharacterUUIDList({required this.uuidList});
+
+  factory CharacterUUIDList.fromJson(List<dynamic> json) {
+    return CharacterUUIDList(
+      uuidList: List<String>.from(json),
+    );
+  }
+}

@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 abstract class CharacterUserEvent extends Equatable {
@@ -11,4 +10,14 @@ class LoadCharacterUser extends CharacterUserEvent {
 
   @override
   List<Object> get props => [uuid];
+}
+
+class LoadCharacterUserUUIDList extends CharacterUserEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class LoadCharactersDBDelete extends CharacterUserEvent {
+  @override
+  List<Object> get props => [];
 }

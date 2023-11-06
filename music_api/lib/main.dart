@@ -8,6 +8,7 @@ import 'package:music_api/presentation/screens/Characters/all_characters/all_cha
 import 'package:music_api/presentation/screens/Books/id_book/id_book_screen.dart';
 import 'package:music_api/presentation/screens/Characters/character_option/character_option.dart';
 import 'package:music_api/presentation/screens/Characters/id_character/id_character.dart';
+import 'package:music_api/presentation/screens/User/id_all_characters.dart';
 import 'package:music_api/presentation/screens/User/id_character_user.dart';
 import 'package:music_api/repositories/character_user.dart';
 
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
                     CharacterUserBloc(CharacterUserRepository()),
                 child: const IDCharacterUser(),
               ),
+          '/IDCharacterUserAll': (context) => BlocProvider(
+              create: (context) => CharacterUserBloc(CharacterUserRepository()),
+              child: const IdAllCharacterState()),
         });
   }
 }
@@ -91,7 +95,15 @@ class MyHomePage extends StatelessWidget {
                 // Navegar a la pantalla CharacterOptionScreen
                 Navigator.pushNamed(context, '/IDCharacterUser');
               },
-              child: const Text('Opciones de personajes guardados'),
+              child: const Text('Buscar personajes guardados por id'),
+            ),
+            const SizedBox(height: 20), // Espaciado entre los botones
+            ElevatedButton(
+              onPressed: () {
+                // Navegar a la pantalla CharacterOptionScreen
+                Navigator.pushNamed(context, '/IDCharacterUserAll');
+              },
+              child: const Text('Lista de todos los id de los personajes'),
             ),
           ],
         ),

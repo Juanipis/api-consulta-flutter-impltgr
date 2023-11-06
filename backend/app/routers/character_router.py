@@ -56,11 +56,21 @@ async def get_all_characters():
     }
 
 @router.get("/get_all_characters_uuids")
-async def get_all_characters_uuid() -> List[uuid.UUID]:
+async def get_all_characters_uuid() -> Dict[str,List[uuid.UUID]]:
     result = character_logic.get_all_characters_uuid()
     if not result:
-        raise HTTPException(status_code=400, detail="No se pudo obtener los personajes")
-    return result
+        return {'uuid_list':[]}
+    return {'uuid_list':result}
+
+# router to clean the database and the rds bucket
+@router.delete("/clean_database")
+async def clean_database():
+    result = character_logic.clean_database()
+    if not result:
+        raise HTTPException(status_code=400, detail="No se pudo limpiar la base de datos")
+    return {
+        'cleaned': result
+    }
 
 def check_uuid(character_uuid):
     try:

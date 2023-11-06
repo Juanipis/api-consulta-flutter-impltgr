@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:music_api/models/character_user.dart';
 
@@ -20,6 +19,38 @@ class CharacterUserLoadedState extends CharacterUserState {
 
 class CharacterUserErrorState extends CharacterUserState {
   CharacterUserErrorState({required this.message});
+
+  final String message;
+
+  @override
+  List<Object> get props => [message];
+}
+
+class CharacterUserUUIDListLoadedState extends CharacterUserState {
+  CharacterUserUUIDListLoadedState({required this.uuidList});
+
+  final List<String> uuidList;
+
+  @override
+  List<Object> get props => [uuidList];
+}
+
+class CharacterUserUUIDListErrorState extends CharacterUserState {
+  CharacterUserUUIDListErrorState({required this.message});
+
+  final String message;
+
+  @override
+  List<Object> get props => [message];
+}
+
+class CharacterUserUUIDListLoadingState extends CharacterUserState {
+  @override
+  List<Object> get props => [];
+}
+
+class CharacterDBDeleteState extends CharacterUserState {
+  CharacterDBDeleteState({required this.message});
 
   final String message;
 

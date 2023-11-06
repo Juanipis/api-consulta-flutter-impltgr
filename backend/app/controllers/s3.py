@@ -76,6 +76,9 @@ class S3Controller:
         for path in path_list:
             data[path] = self.get_file(path)
         return data
+    
+    def clean_bucket(self):
+        self.__empty_bucket(S3Credentials())
 
 
 s3_controller = S3Controller(S3Credentials())
