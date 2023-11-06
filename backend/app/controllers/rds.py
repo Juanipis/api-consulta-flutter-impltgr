@@ -143,9 +143,25 @@ class RDSController:
         character_list = list(characters_dict.values())
         return character_list
 
+    def get_all_characters_uuid(self) -> List[UUID]:
+        self.cursor.execute(
+            """
+            SELECT id FROM characters
+            """
+        )
+        
+        raw_characters =  self.cursor.fetchall()
+        if not raw_characters:
+            return []
+        
+        characters_uuid_list = [UUID(char_id[0]) for char_id in raw_characters]
+        # Convertimos la lista a un conjunto para eliminar duplicados, y luego de nuevo a una lista
+        return list(set(characters_uuid_list))
+    
     def close_connection(self):
         logger.info("Closing RDS connection")
         self.cursor.close()
         self.conn.close()
+    
 
 rds_controller = RDSController()

@@ -54,8 +54,14 @@ async def get_all_characters():
     return {
         'characters': result
     }
-    
-    
+
+@router.get("/get_all_characters_uuids")
+async def get_all_characters_uuid() -> List[uuid.UUID]:
+    result = character_logic.get_all_characters_uuid()
+    if not result:
+        raise HTTPException(status_code=400, detail="No se pudo obtener los personajes")
+    return result
+
 def check_uuid(character_uuid):
     try:
         uuid.UUID(character_uuid)
