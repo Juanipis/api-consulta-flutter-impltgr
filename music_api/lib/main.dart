@@ -41,11 +41,11 @@ class MyApp extends StatelessWidget {
           '/AllCharacters': (context) => const AllCharactersScreenState(),
           '/IDCharacter': (context) => const IDCharacter(),
           '/IDCharacterUser': (context) => BlocProvider(
-                create: (context) => CharacterUserBloc(CharacterUserRepository()),
+                create: (context) =>
+                    CharacterUserBloc(CharacterUserRepository()),
                 child: const IDCharacterUser(),
               ),
         });
-        
   }
 }
 
@@ -91,7 +91,7 @@ class MyHomePage extends StatelessWidget {
                 // Navegar a la pantalla CharacterOptionScreen
                 Navigator.pushNamed(context, '/IDCharacterUser');
               },
-              child: const Text('ID Character User'),
+              child: const Text('Opciones de personajes guardados'),
             ),
           ],
         ),

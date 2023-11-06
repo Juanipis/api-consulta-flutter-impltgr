@@ -40,8 +40,6 @@ async def get_character_images(character_uuid: str):
 async def insert_new_character_image(character_uuid: str, character_image: UploadFile = File(...)):
     character_image_bytes = await character_image.read()
     result = character_logic.compare_and_insert_character(character_uuid, character_image_bytes)
-    if not result:
-        raise HTTPException(status_code=400, detail="Las caras no coinciden")
     return {
         'inserted': result
     }
