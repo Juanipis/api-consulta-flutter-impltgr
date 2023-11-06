@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 import uuid
 from uuid import UUID
 from app.controllers.rds import rds_controller
@@ -58,6 +58,14 @@ class CharacterLogic:
         character = rds_controller.get_character_images(character_uuid)
         images = s3_controller.get_files(character.images_route)
         return images
+    
+    def get_all_characters_uuid(self) -> List[str]:
+        return rds_controller.get_all_characters_uuid()
+    
+    def clean_database(self) -> bool:
+        rds_controller.clean_database()
+        s3_controller.clean_bucket()
+        return True
         
         
 character_logic = CharacterLogic()

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:music_api/blocs/character/character_blocs.dart';
@@ -73,6 +75,14 @@ class _IDCharacterState extends State<IDCharacter> {
                         // Puedes añadir un placeholder si la imagen es null
                         if (state.character.attributes.image == null)
                           const Text('No hay imagen disponible'),
+                        // Añadir un botón para insertar la imagen
+                        // state.character.attributes.image! is an url of
+                        if (state.character.attributes.image != null)
+                          ElevatedButton(
+                              onPressed: () {
+                                insertCharacter(context, state);
+                              },
+                              child: const Text('Insertar imagen a la BD')),
                       ],
                     ),
                   );
@@ -87,5 +97,32 @@ class _IDCharacterState extends State<IDCharacter> {
         ),
       ),
     );
+  }
+
+  void insertCharacter(BuildContext context, CharacterLoadedByIdState state) {
+    BlocProvider.of<CharacterBloc>(context).add(InsertCharacterEvent(
+        uuid: state.character.id,
+        imageUrl: state.character.attributes.image!,
+        imageName: 'original.jpg'));
+    final bloc = BlocProvider.of<CharacterBloc>(context);
+    late StreamSubscription<CharacterState> subscription;
+    subscription = bloc.stream.listen((state) {
+      if (state is CharacterInsertedState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Personaje insertado'),
+          ),
+        );
+        subscription.cancel();
+      }
+      if (state is CharacterErrorState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(state.message),
+          ),
+        );
+        subscription.cancel();
+      }
+    });
   }
 }

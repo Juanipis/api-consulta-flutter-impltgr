@@ -33,3 +33,14 @@ class CharacterLoadedByIdState extends CharacterState {
   @override
   List<Object> get props => [character];
 }
+
+class CharacterInsertedState extends CharacterState {
+  final String successMessage;
+
+  CharacterInsertedState({this.successMessage = "Personaje insertado con éxito"});
+
+  @override
+  List<Object> get props => [successMessage];
+}
+
+

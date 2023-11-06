@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:music_api/blocs/character_user/character_user_blocs.dart';
 import 'package:music_api/presentation/screens/Books/all_books/all_books_screen.dart';
 import 'package:music_api/presentation/screens/Books/all_chapters/chapters_screen.dart';
 import 'package:music_api/presentation/screens/Books/book_option/book_option.dart';
@@ -6,8 +9,12 @@ import 'package:music_api/presentation/screens/Characters/all_characters/all_cha
 import 'package:music_api/presentation/screens/Books/id_book/id_book_screen.dart';
 import 'package:music_api/presentation/screens/Characters/character_option/character_option.dart';
 import 'package:music_api/presentation/screens/Characters/id_character/id_character.dart';
+import 'package:music_api/presentation/screens/User/id_all_characters.dart';
+import 'package:music_api/presentation/screens/User/id_character_user.dart';
+import 'package:music_api/repositories/character_user.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -35,7 +42,15 @@ class MyApp extends StatelessWidget {
           '/AllBooks': (context) => const AllBooksScreen(),
           '/IDBook': (context) => const IDBookScreen(),
           '/AllCharacters': (context) => const AllCharactersScreenState(),
-          '/IDCharacter': (context) => const IDCharacter()
+          '/IDCharacter': (context) => const IDCharacter(),
+          '/IDCharacterUser': (context) => BlocProvider(
+                create: (context) =>
+                    CharacterUserBloc(CharacterUserRepository()),
+                child: const IDCharacterUser(),
+              ),
+          '/IDCharacterUserAll': (context) => BlocProvider(
+              create: (context) => CharacterUserBloc(CharacterUserRepository()),
+              child: const IdAllCharacterState()),
         });
   }
 }
@@ -75,6 +90,22 @@ class MyHomePage extends StatelessWidget {
                 Navigator.pushNamed(context, '/CharacterOptions');
               },
               child: const Text('Opciones de Personajes'),
+            ),
+            const SizedBox(height: 20), // Espaciado entre los botones
+            ElevatedButton(
+              onPressed: () {
+                // Navegar a la pantalla CharacterOptionScreen
+                Navigator.pushNamed(context, '/IDCharacterUser');
+              },
+              child: const Text('Buscar personajes guardados por id'),
+            ),
+            const SizedBox(height: 20), // Espaciado entre los botones
+            ElevatedButton(
+              onPressed: () {
+                // Navegar a la pantalla CharacterOptionScreen
+                Navigator.pushNamed(context, '/IDCharacterUserAll');
+              },
+              child: const Text('Lista de todos los id de los personajes'),
             ),
           ],
         ),
