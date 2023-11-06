@@ -4,6 +4,7 @@ import 'package:music_api/blocs/character/character_blocs.dart';
 import 'package:music_api/blocs/character/character_events.dart';
 import 'package:music_api/blocs/character/character_states.dart';
 import 'package:music_api/models/character.dart';
+import 'package:flutter/services.dart'; // Importa esto para usar Clipboard
 
 class AllCharactersScreenState extends StatefulWidget {
   const AllCharactersScreenState({super.key});
@@ -24,6 +25,9 @@ class __AllCharactersScreenStateState extends State<AllCharactersScreenState> {
         .add(LoadCharacterEvent(pageNumber: currentPage));
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Lista de todos los personajes'),
+      ),
       body: Column(
         children: [
           Expanded(child: characterBuilder()),
@@ -88,10 +92,20 @@ class __AllCharactersScreenStateState extends State<AllCharactersScreenState> {
                         'Género: ${characterList[index].attributes.gender ?? 'Desconocido'}'),
                     Text(
                         'Nacionalidad: ${characterList[index].attributes.nationality ?? 'Desconocido'}'),
+                    Text('ID: ${characterList[index].id ?? 'Desconocido'}')
                   ],
                 ),
                 onTap: () {
-                  // Opcional: Puedes añadir una acción al tocar el ListTile
+                  Clipboard.setData(
+                          ClipboardData(text: characterList[index].id))
+                      .then((_) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Personaje copiado'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  });
                 },
               ),
             );
