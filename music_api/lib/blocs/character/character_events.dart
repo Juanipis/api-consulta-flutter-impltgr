@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 abstract class CharacterEvent extends Equatable {
@@ -6,14 +5,17 @@ abstract class CharacterEvent extends Equatable {
 }
 
 class LoadCharacterEvent extends CharacterEvent {
+  final int pageNumber;
+  const LoadCharacterEvent({this.pageNumber = 1});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [pageNumber];
 }
 
 class LoadCharacterByIdEvent extends CharacterEvent {
   final String id;
   const LoadCharacterByIdEvent(this.id);
-  
+
   @override
   List<Object> get props => [id];
 }
