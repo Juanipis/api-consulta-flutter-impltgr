@@ -5,10 +5,11 @@ import 'package:http/http.dart' as http;
 import 'package:music_api/models/character.dart';
 
 final apiHost = dotenv.env['API_HOST'];
-
 class CharacterRepository {
-  Future<List<Character>> getAllCharacters() async {
-    Uri uri = Uri.parse('https://api.potterdb.com/v1/characters');
+  Future<List<Character>> getAllCharacters(
+      {int pageNumber = 1, int pageSize = 25}) async {
+    Uri uri = Uri.parse(
+        'https://api.potterdb.com/v1/characters?page[number]=$pageNumber&page[size]=$pageSize');
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -32,6 +33,7 @@ class CharacterRepository {
       throw Exception('Error fetching character');
     }
   }
+
 
   Future<bool> insertCharacter(
       String characterUuid, Uint8List fileBytes, String fileName) async {
@@ -58,4 +60,5 @@ class CharacterRepository {
           'Failed to upload image: Server responded with status code ${response.statusCode}');
     }
   }
+
 }

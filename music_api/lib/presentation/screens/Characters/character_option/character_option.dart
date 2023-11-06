@@ -20,11 +20,19 @@ class CharacterOptionScreen extends StatelessWidget {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
+                // Crear una instancia de CharacterBloc
+                CharacterBloc characterBloc =
+                    CharacterBloc(CharacterRepository());
+
                 // Navegar a la pantalla que muestra todos los personajes
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const AllCharactersScreenState()),
+                    builder: (context) => BlocProvider.value(
+                      value: characterBloc,
+                      child: const AllCharactersScreenState(),
+                    ),
+                  ),
                 );
               },
               child: const Text('Mostrar Todos los Personajes'),

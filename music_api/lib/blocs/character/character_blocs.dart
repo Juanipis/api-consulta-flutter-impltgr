@@ -11,13 +11,19 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
     on<LoadCharacterEvent>((event, emit) async {
       emit(CharacterLoadingState());
       try {
-        final characters = await characterRepository.getAllCharacters();
+        // Obtener los personajes de la página actual
+        final characters = await characterRepository.getAllCharacters(
+            pageNumber: event.pageNumber);
+
+        // Emitir un nuevo estado con la nueva lista de personajes
+
         emit(CharacterLoadedState(characters: characters));
       } catch (e) {
         emit(CharacterErrorState(message: e.toString()));
       }
     });
 
+    // Otros manejadores de eventos aquí...
     on<LoadCharacterByIdEvent>((event, emit) async {
       emit(CharacterLoadingState());
       try {

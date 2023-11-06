@@ -4,7 +4,6 @@ import 'package:music_api/blocs/character/character_blocs.dart';
 import 'package:music_api/blocs/character/character_events.dart';
 import 'package:music_api/blocs/character/character_states.dart';
 import 'package:music_api/models/character.dart';
-import 'package:music_api/repositories/character.dart';
 
 class AllCharactersScreenState extends StatefulWidget {
   const AllCharactersScreenState({super.key});
@@ -15,13 +14,50 @@ class AllCharactersScreenState extends StatefulWidget {
 }
 
 class __AllCharactersScreenStateState extends State<AllCharactersScreenState> {
+  int currentPage = 1;
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          CharacterBloc(CharacterRepository())..add(LoadCharacterEvent()),
-      child: Scaffold(
-        body: characterBuilder(),
+    // Solicitar la carga de la primera página al iniciar
+    context
+        .read<CharacterBloc>()
+        .add(LoadCharacterEvent(pageNumber: currentPage));
+
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(child: characterBuilder()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: currentPage > 1
+                    ? () {
+                        setState(() {
+                          currentPage--;
+                        });
+                        context
+                            .read<CharacterBloc>()
+                            .add(LoadCharacterEvent(pageNumber: currentPage));
+                      }
+                    : null,
+                child: const Text('Anterior'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    currentPage++;
+                  });
+                  print("Cargando página $currentPage"); // Agregar esta línea
+                  context
+                      .read<CharacterBloc>()
+                      .add(LoadCharacterEvent(pageNumber: currentPage));
+                },
+                child: const Text('Siguiente'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -38,9 +74,9 @@ class __AllCharactersScreenStateState extends State<AllCharactersScreenState> {
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                leading: Image.network(characterList[index].attributes.image ??
-                    ''), // Añadido valor predeterminado
-                title: Text(characterList[index].attributes.name), // Añadido valor predeterminado
+                leading:
+                    Image.network(characterList[index].attributes.image ?? ''),
+                title: Text(characterList[index].attributes.name),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -52,7 +88,6 @@ class __AllCharactersScreenStateState extends State<AllCharactersScreenState> {
                         'Género: ${characterList[index].attributes.gender ?? 'Desconocido'}'),
                     Text(
                         'Nacionalidad: ${characterList[index].attributes.nationality ?? 'Desconocido'}'),
-                    // Puedes añadir más atributos aquí
                   ],
                 ),
                 onTap: () {
