@@ -1,5 +1,5 @@
 import base64
-from typing import Dict, List
+from typing import Dict, List, Union
 import uuid
 from app.logic.character.character_logic import character_logic
 from fastapi import APIRouter, File, UploadFile, HTTPException
@@ -25,15 +25,15 @@ async def get_character_images(character_uuid: str):
         'character_images': result
     }
 
-@router.get("/get_character_images_bytes/{character_uuid}", response_model=Dict[str, str])
+@router.get("/get_character_images_bytes/{character_uuid}", response_model=Dict[str, Union[str, Dict[str, str]]])
 async def get_character_images(character_uuid: str):
     check_uuid(character_uuid)
     result = character_logic.get_character_images_bytes(character_uuid)
     if not result:
         raise HTTPException(status_code=400, detail="No se pudo obtener las imágenes del personaje")
     # Codificamos cada imagen en base64 y la devolvemos como un diccionario
-    return {name: base64.b64encode(img).decode() for name, img in result.items()}
-
+    images = {name: base64.b64encode(img).decode() for name, img in result.items()}
+    return {"character_uuid": character_uuid, "data": images}
 
 
 @router.post("/insert_new_character_image")
