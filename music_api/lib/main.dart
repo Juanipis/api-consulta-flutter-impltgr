@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:music_api/blocs/character_user/character_user_blocs.dart';
 import 'package:music_api/presentation/screens/Books/all_books/all_books_screen.dart';
 import 'package:music_api/presentation/screens/Books/all_chapters/chapters_screen.dart';
@@ -12,7 +13,8 @@ import 'package:music_api/presentation/screens/User/id_all_characters.dart';
 import 'package:music_api/presentation/screens/User/id_character_user.dart';
 import 'package:music_api/repositories/character_user.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 

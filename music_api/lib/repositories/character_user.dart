@@ -1,15 +1,15 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:music_api/models/character_user.dart';
-import 'package:path/path.dart';
+
+final apiHost = dotenv.env['API_HOST'];
 
 class CharacterUserRepository {
   Future<CharacterUser> getUserCharacters(String uuid) async {
-    Uri uri = Uri.parse(
-        'http://127.0.0.1:8000/character/get_character_images_bytes/$uuid');
+    Uri uri = Uri.parse('$apiHost/character/get_character_images_bytes/$uuid');
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -21,8 +21,7 @@ class CharacterUserRepository {
 
   Future<bool> insertNewCharacterImage(
       String characterUuid, Uint8List fileBytes, String fileName) async {
-    var uri =
-        Uri.parse('http://127.0.0.1:8000/character/insert_new_character_image');
+    var uri = Uri.parse('$apiHost/character/insert_new_character_image');
     uri = uri.replace(queryParameters: {
       ...uri.queryParameters,
       'character_uuid': characterUuid, // Asegúrate de que esto no sea null.
@@ -38,7 +37,6 @@ class CharacterUserRepository {
     print(responseString);
 
     if (response.statusCode == 200) {
-      // La respuesta devuelve algo como esto: {"inserted": true|false}
       var responseJson = json.decode(responseString);
       return responseJson['inserted'];
     } else {
@@ -48,8 +46,7 @@ class CharacterUserRepository {
   }
 
   Future<List<String>> getUserCharactersUUIDList() async {
-    Uri uri =
-        Uri.parse('http://127.0.0.1:8000/character/get_all_characters_uuids');
+    Uri uri = Uri.parse('$apiHost/character/get_all_characters_uuids');
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -61,7 +58,7 @@ class CharacterUserRepository {
   }
 
   Future<bool> deleteAllCharacters() {
-    Uri uri = Uri.parse('http://127.0.0.1:8000/character/clean_database');
+    Uri uri = Uri.parse('$apiHost/character/clean_database');
     return http.delete(uri).then((response) {
       if (response.statusCode == 200) {
         return true;

@@ -167,14 +167,13 @@ class _IDCharacterUserState extends State<IDCharacterUser> {
             characterUser.uuid, fileBytes, fileName);
         if (uploadResult) {
           ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(
-            const SnackBar(
-                content: Text('Image uploaded successfully, please refresh')),
+            const SnackBar(content: Text('Imagen subida correctamente')),
           );
         } else {
           ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(
             const SnackBar(
                 content: Text(
-                    'Failed to upload image, no match face found in the image or the image is not a face image. Please try again with a different image or a different face in the image.')),
+                    'No se pudo subir la imagen, intente nuevamente, ¿Está seguro que en la imagen está la cara del personaje?')),
           );
         }
         return uploadResult;
